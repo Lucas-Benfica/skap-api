@@ -23,3 +23,8 @@ export async function signInSession (token, userData) {
     const login = db.query(`INSERT INTO session ("userId", token) VALUES ($1, $2);`, [userData.id, token]);
     return login;
 }
+
+export async function userInfoById (id) {	
+    const result = db.query(`SELECT * FROM users WHERE id=$1`, [id]);
+    return result;
+}

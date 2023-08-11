@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { createUser, signInSession } from "../repositories/userRepository.js";
+import { createUser, signInSession, userInfoById } from "../repositories/userRepository.js";
 /*
 "id" SERIAL PRIMARY KEY,
 	"name" TEXT NOT NULL,
@@ -29,3 +29,14 @@ export async function signIn(req, res) {
         res.status(500).send("Error while signing in: " + err.message);
     }
 }
+
+export async function getUser(req, res) {
+    const { userId } = res.locals;
+    try {
+        const userData = await userInfoById(userId);
+        res.status(200).send(userData);
+    } catch (err) {
+        res.status(500).send("Error while signing in: " + err.message);
+    }
+}
+
