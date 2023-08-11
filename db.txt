@@ -1,0 +1,43 @@
+CREATE TABLE "users" (
+	"id" SERIAL PRIMARY KEY,
+	"name" TEXT NOT NULL,
+	"password" TEXT NOT NULL,
+    "email" TEXT UNIQUE NOT NULL,
+    "cpf" CHAR(11) UNIQUE NOT NULL,
+    "phoneNumber" VARCHAR(15) UNIQUE NOT NULL,
+    "createdAt" TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE "cars" (
+	"id" SERIAL PRIMARY KEY,
+	"userId" INTEGER NOT NULL REFERENCES "users"("id"),
+	"name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "brand" TEXT NOT NULL,
+    "engine" TEXT NOT NULL,
+    "plate" VARCHAR(10) NOT NULL,
+    "city" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "year" INTEGER CHECK (year >= 1886 AND year <= EXTRACT(YEAR FROM CURRENT_DATE)) NOT NULL,
+    "km" INTEGER NOT NULL,
+    "transmission" VARCHAR(20) NOT NULL,
+    "fuel" VARCHAR(20) NOT NULL,
+    "color" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "views" INTEGER DEFAULT 0,
+    "createdAt" TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE "photos" (
+	"id" SERIAL PRIMARY KEY,
+	"carId" INTEGER NOT NULL REFERENCES "cars"("id"),
+	"photo" TEXT NOT NULL
+);
+CREATE TABLE "session" (
+	"id" SERIAL PRIMARY KEY,
+	"userId" INTEGER NOT NULL REFERENCES "users"("id"),
+	"token" TEXT NOT NULL
+);
+CREATE TABLE "favorites" (
+	"id" SERIAL PRIMARY KEY,
+	"userId" INTEGER NOT NULL REFERENCES "users"("id"),
+	"carId" INTEGER NOT NULL REFERENCES "cars"("id")
+);

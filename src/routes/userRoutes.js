@@ -10,6 +10,5 @@ const userRouter = Router();
 
 userRouter.post('/signup', validateSchema(schemaSignUp), validateEmailCreation, signUp);
 userRouter.post('/signin', validateSchema(schemaSignIn), validateLogin, signIn);
-//userRouter.get('/users/me', validateAuth, getUserInfo);
 
 export default userRouter;

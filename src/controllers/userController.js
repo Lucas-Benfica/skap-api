@@ -1,17 +1,18 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { createUser, getUser, signInSession } from "../repositories/userRepository.js";
-
+import { createUser, signInSession } from "../repositories/userRepository.js";
+/*
+"id" SERIAL PRIMARY KEY,
+	"name" TEXT NOT NULL,
+	"password" TEXT NOT NULL,
+    "email" TEXT UNIQUE NOT NULL,
+    "cpf" CHAR(11) UNIQUE NOT NULL,
+    "phoneNumber" VARCHAR(15) UNIQUE NOT NULL,
+    "createdAt" TIMESTAMP DEFAULT NOW()
+*/
 export async function signUp(req, res) {
-    const { name, email, password, confirmPassword } = req.body;
-
-    if (password !== confirmPassword) {
-        return res.status(422).send({ message: "Incompatible passwords" });
-    }
-
     try {
-        const hash = bcrypt.hashSync(password, 10);
-        await createUser(name, email, hash);
+        await createUser(req.body);
         res.status(201).json({ message: "User registered successfully" });
     } catch (err) {
         res.status(500).send("Error while signing up: " + err.message);
@@ -28,16 +29,3 @@ export async function signIn(req, res) {
         res.status(500).send("Error while signing in: " + err.message);
     }
 }
-/*
-export async function getUserInfo(req, res) {
-    const { userId } = res.locals;
-
-    try {
-        const userInfo = await getUser(userId);
-
-        res.status(200).send(userInfo.rows[0]);
-    } catch (err) {
-        res.status(500).send("Error while getting user information: " + err.message);
-    }
-}
-*/
