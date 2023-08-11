@@ -1,4 +1,6 @@
 import { db } from "../database/databaseConnection.js";
+import bcrypt from "bcrypt";
+
 /*
 "id" SERIAL PRIMARY KEY,
 	"name" TEXT NOT NULL,
