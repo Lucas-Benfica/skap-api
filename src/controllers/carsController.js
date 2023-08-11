@@ -1,22 +1,5 @@
-import { carById, carList, createCar, insertPhotos } from "../repositories/carsRepository.js";
-/*
-export const carsSchema = Joi.object({
-    userId: Joi.number().integer().required(),
-    name: Joi.string().required(),
-    description: Joi.string().required(),
-    brand: Joi.string().required(),
-    engine: Joi.string().required(),
-    plate: Joi.string().max(10).required(),
-    city: Joi.string().required(),
-    state: Joi.string().required(),
-    year: Joi.number().integer().min(1886).max(new Date().getFullYear()).required(),
-    km: Joi.number().integer().required(),
-    transmission: Joi.string().required(),
-    fuel: Joi.string().required(),
-    color: Joi.string().required(),
-    price: Joi.number().integer().required(),
-});
-*/
+import { carById, carList, createCar, insertPhotos, ranking } from "../repositories/carsRepository.js";
+
 export async function postCreateCar (req, res){
     const { userId } = res.locals;
     const {photos} = req.body;
@@ -46,6 +29,14 @@ export async function getCarById(req, res) {
     try {
         const result = await carById(id);
         res.status(201).send(result.rows[0]);
+    } catch (err) {
+        res.status(500).send({ message: "Error when shortening url: " + err.message });
+    }
+}
+export async function getCarRanking(req, res) {
+    try {
+        const result = await ranking();
+        res.status(201).send(result.rows);
     } catch (err) {
         res.status(500).send({ message: "Error when shortening url: " + err.message });
     }

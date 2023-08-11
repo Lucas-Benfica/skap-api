@@ -1,6 +1,6 @@
 import { db } from "../database/databaseConnection.js";
 
-export async function carList(body) {
+export async function carList() {
     const result = db.query(`
     SELECT c.*,
         COALESCE(array_agg(p.photo), ARRAY[]::TEXT[]) AS photos
@@ -63,4 +63,16 @@ const insertCarQuery = `
     )
     RETURNING id;
 `;
+
+export async function ranking(){
+    const result = db.query(`
+    SELECT c.*,
+        COALESCE(array_agg(p.photo), ARRAY[]::TEXT[]) AS photos
+    FROM cars c 
+    LEFT JOIN photos p ON c.id = p.carId
+    GROUP BY c.id
+    ORDER BY c.views;
+    `);
+    return result;
+}
 
