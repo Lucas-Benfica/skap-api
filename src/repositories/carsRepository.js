@@ -25,7 +25,7 @@ export async function carById(id) {
 }
 
 export async function createCar(carData) {
-    const result = await client.query(insertCarQuery, carData);
+    const result = await db.query(insertCarQuery, carData);
     return result.rows[0].id;
 }
 
