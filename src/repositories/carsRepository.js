@@ -3,11 +3,10 @@ import { db } from "../database/databaseConnection.js";
 export async function carList() {
     const result = db.query(`
     SELECT c.*,
-        COALESCE(array_agg(p.photo), ARRAY[]::TEXT[]) AS photos
-    FROM cars c 
-    LEFT JOIN photos p ON c.id = p."carId"
-    GROUP BY c.id
-    ORDER BY c.id;
+    jsonb_agg(p.photo) AS photos
+    FROM cars c
+    LEFT JOIN photos p ON c.id = p.carId
+    GROUP BY c.id;
     `);
     return result;
 }
