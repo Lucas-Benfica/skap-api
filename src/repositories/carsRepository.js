@@ -5,7 +5,7 @@ export async function carList() {
     SELECT c.*,
         COALESCE(array_agg(p.photo), ARRAY[]::TEXT[]) AS photos
     FROM cars c 
-    LEFT JOIN photos p ON c.id = p.carId
+    LEFT JOIN photos p ON c.id = p."carId"
     GROUP BY c.id
     ORDER BY c.id;
     `);
@@ -17,7 +17,7 @@ export async function carById(id) {
     SELECT c.*,
     COALESCE(array_agg(p.photo), ARRAY[]::TEXT[]) AS photos
     FROM cars c
-    LEFT JOIN photos p ON c.id = p.carId
+    LEFT JOIN photos p ON c.id = p."carId"
     WHERE c.id = $1
     GROUP BY c.id;
     `, [id]);
