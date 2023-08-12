@@ -46,7 +46,7 @@ export async function createCar(carData) {
 }
 
 export async function insertPhotos(carId, photoArray) {
-    const insertPhotoQuery = `INSERT INTO photos (carId, photo) VALUES ($1, $2)`;
+    const insertPhotoQuery = `INSERT INTO photos ("carId", photo) VALUES ($1, $2)`;
 
     try {
         for (const photo of photoArray) {
@@ -83,11 +83,12 @@ const insertCarQuery = `
 export async function ranking(){
     const result = db.query(`
     SELECT c.*,
-        COALESCE(array_agg(p.photo), ARRAY[]::TEXT[]) AS photos
-    FROM cars c 
+    jsonb_agg(p.photo) AS photos
+    FROM cars c
     LEFT JOIN photos p ON c.id = p.carId
     GROUP BY c.id
-    ORDER BY c.views;
+    ORDER BY c.views DESC
+    LIMIT 6;
     `);
     return result;
 }
