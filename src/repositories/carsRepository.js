@@ -14,11 +14,13 @@ export async function carList() {
 export async function carById(id) {
     const result = db.query(`
     SELECT c.*,
-    jsonb_agg(p.photo) AS photos
+    jsonb_agg(p.photo) AS photos,
+    jsonb_build_object('name', u.name, 'email', u.email, 'phoneNumber', u."phoneNumber") AS seller
     FROM cars c
     LEFT JOIN photos p ON c.id = p."carId"
+    LEFT JOIN users u ON c."userId" = u.id
     WHERE c.id = $1
-    GROUP BY c.id;
+    GROUP BY c.id, u.name, u.email, u."phoneNumber";
     `, [id]);
     return result;
 }
