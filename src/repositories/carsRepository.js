@@ -60,7 +60,7 @@ export async function insertPhotos(carId, photoArray) {
 
 const insertCarQuery = `
     INSERT INTO cars (
-        userId,
+        "userId",
         name,
         category,
         description,
