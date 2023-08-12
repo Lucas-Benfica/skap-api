@@ -25,7 +25,24 @@ export async function carById(id) {
 }
 
 export async function createCar(carData) {
-    const result = await db.query(insertCarQuery, carData);
+    const result = await db.query(insertCarQuery, [
+        carData.userId,
+        carData.name,
+        carData.category,
+        carData.description,
+        carData.brand,
+        carData.engine,
+        carData.plate,
+        carData.city,
+        carData.state,
+        carData.year,
+        carData.km,
+        carData.transmission,
+        carData.fuel,
+        carData.color,
+        carData.price
+      ]
+      );
     return result.rows[0].id;
 }
 
