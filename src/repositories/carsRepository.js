@@ -5,7 +5,7 @@ export async function carList() {
     SELECT c.*,
     jsonb_agg(p.photo) AS photos
     FROM cars c
-    LEFT JOIN photos p ON c.id = p.carId
+    LEFT JOIN photos p ON c.id = p."carId"
     GROUP BY c.id;
     `);
     return result;
@@ -14,7 +14,7 @@ export async function carList() {
 export async function carById(id) {
     const result = db.query(`
     SELECT c.*,
-    COALESCE(array_agg(p.photo), ARRAY[]::TEXT[]) AS photos
+    jsonb_agg(p.photo) AS photos
     FROM cars c
     LEFT JOIN photos p ON c.id = p."carId"
     WHERE c.id = $1
