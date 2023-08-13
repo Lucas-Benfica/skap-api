@@ -33,7 +33,7 @@ export async function getUser(req, res) {
 
 export async function postAddFavorite(req, res) {
     const { userId } = res.locals;
-    const { id } = req.body;
+    const { id } = req.params;
     try {
         const result = await addFavorite(userId, id);
         res.status(200).send("Carro adicionado aos favoritos.");
@@ -44,7 +44,7 @@ export async function postAddFavorite(req, res) {
 
 export async function postRemoveFavorite(req, res) {
     const { userId } = res.locals;
-    const { id } = req.body;
+    const { id } = req.params;
     try {
         const result = await removeFavorite(userId, id);
         res.status(200).send("Carro removido dos favoritos.");

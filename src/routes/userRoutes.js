@@ -11,8 +11,8 @@ const userRouter = Router();
 userRouter.post('/signup', validateSchema(schemaSignUp), validateEmailCreation, signUp);
 userRouter.post('/signin', validateSchema(schemaSignIn), validateLogin, signIn);
 //userRouter.get('/user', validateAuth);
-userRouter.post('/favorites/add', validateAuth, postAddFavorite);
-userRouter.post('/favorites/remove', validateAuth, postRemoveFavorite);
+userRouter.post('/favorites/add/:id', validateAuth, postAddFavorite);
+userRouter.post('/favorites/remove/:id', validateAuth, postRemoveFavorite);
 userRouter.get('/favorite/:id', validateAuth, getIsFavorite);
 
 
