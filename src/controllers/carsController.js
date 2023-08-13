@@ -1,4 +1,4 @@
-import { carByCategory, carById, carList, createCar, insertPhotos, ranking } from "../repositories/carsRepository.js";
+import { carById, carList, createCar, insertPhotos, ranking } from "../repositories/carsRepository.js";
 
 export async function postCreateCar(req, res) {
     const { userId } = res.locals;

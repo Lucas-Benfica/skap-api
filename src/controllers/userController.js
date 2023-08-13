@@ -1,15 +1,6 @@
-import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { addFavorite, createUser, isFavorite, removeFavorite, signInSession, userInfoById } from "../repositories/userRepository.js";
-/*
-"id" SERIAL PRIMARY KEY,
-	"name" TEXT NOT NULL,
-	"password" TEXT NOT NULL,
-    "email" TEXT UNIQUE NOT NULL,
-    "cpf" CHAR(11) UNIQUE NOT NULL,
-    "phoneNumber" VARCHAR(15) UNIQUE NOT NULL,
-    "createdAt" TIMESTAMP DEFAULT NOW()
-*/
+
 export async function signUp(req, res) {
     try {
         await createUser(req.body);
@@ -51,7 +42,6 @@ export async function postAddFavorite(req, res) {
     }
 }
 
-
 export async function postRemoveFavorite(req, res) {
     const { userId } = res.locals;
     const { id } = req.body;
@@ -69,11 +59,11 @@ export async function getIsFavorite(req, res) {
     const { id } = req.body;
     try {
         const result = await isFavorite(userId, id);
-        const isFavorite = result.rows.length > 0;
-        if (isFavorite) {
-            res.status(200).send({isFavorite: true});
+        const favoriteCar = result.rows.length > 0;
+        if (favoriteCar) {
+            res.status(200).send({favoriteCar: true});
         } else {
-            res.status(200).send({isFavorite: false});
+            res.status(200).send({favoriteCar: false});
         }
     } catch (err) {
         res.status(500).send("Error while checking favorite status: " + err.message);
