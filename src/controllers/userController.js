@@ -27,7 +27,7 @@ export async function getUser(req, res) {
         const userData = await userInfoById(userId);
         res.status(200).send(userData);
     } catch (err) {
-        res.status(500).send("Error while signing in: " + err.message);
+        res.status(500).send("Error while getting user information: " + err.message);
     }
 }
 

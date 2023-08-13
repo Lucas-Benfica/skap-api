@@ -32,13 +32,13 @@ CREATE TABLE "photos" (
 	"carId" INTEGER NOT NULL REFERENCES "cars"("id"),
 	"photo" TEXT NOT NULL
 );
-CREATE TABLE "session" (
-	"id" SERIAL PRIMARY KEY,
-	"userId" INTEGER NOT NULL REFERENCES "users"("id"),
-	"token" TEXT NOT NULL
-);
 CREATE TABLE "favorites" (
 	"id" SERIAL PRIMARY KEY,
 	"userId" INTEGER NOT NULL REFERENCES "users"("id"),
 	"carId" INTEGER NOT NULL REFERENCES "cars"("id")
+);
+CREATE TABLE "session" (
+	"id" SERIAL PRIMARY KEY,
+	"userId" INTEGER NOT NULL REFERENCES "users"("id"),
+	"token" TEXT NOT NULL
 );
