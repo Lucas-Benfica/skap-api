@@ -44,11 +44,9 @@ export async function postCreateCar(req, res) {
     const { category } = req.params;
     try {
       const result = await carByCategory(category);
-      if (result.rows.length === 0) {
-        res.status(404).send({ message: "Cars not found" });
-      } else {
-        res.status(200).send(result.rows);
-      }
+      
+      res.status(200).send(result.rows);
+      
     } catch (err) {
       res.status(500).send({ message: "Error retrieving car by Category: " + err.message });
     }
