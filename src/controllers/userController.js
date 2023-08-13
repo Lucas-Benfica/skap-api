@@ -53,10 +53,9 @@ export async function postRemoveFavorite(req, res) {
     }
 }
 
-
 export async function getIsFavorite(req, res) {
     const { userId } = res.locals;
-    const { id } = req.body;
+    const { id } = req.params;
     try {
         const result = await isFavorite(userId, id);
         const favoriteCar = result.rows.length > 0;
