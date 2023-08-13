@@ -9,6 +9,6 @@ const carsRouter = Router();
 carsRouter.get('/cars', getCarList);
 carsRouter.get('/cars/:id', getCarById);
 carsRouter.post('/cars', validateSchema(carsSchema), validateAuth, postCreateCar);
-carsRouter.get('/cars/ranking', getCarRanking);
+carsRouter.get('/ranking', getCarRanking);
 
 export default carsRouter;
