@@ -25,7 +25,7 @@ export async function getUser(req, res) {
     const { userId } = res.locals;
     try {
         const userData = await userInfoById(userId);
-        res.status(200).send(userData);
+        res.status(200).send(userData.rows[0]);
     } catch (err) {
         res.status(500).send("Error while getting user information: " + err.message);
     }

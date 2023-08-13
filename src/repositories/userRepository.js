@@ -32,12 +32,12 @@ export async function userInfoById (id) {
         FROM cars c
         INNER JOIN favorites f ON c.id = f."carId"
         WHERE f."userId" = u.id
-    ) AS favorites,
+    ) AS "favorites",
     (
         SELECT jsonb_agg(jsonb_build_object('id', c.id, 'name', c.name, 'category', c.category, 'description', c.description, 'brand', c.brand, 'engine', c.engine, 'plate', c.plate, 'city', c.city, 'state', c.state, 'year', c.year, 'km', c.km, 'transmission', c.transmission, 'fuel', c.fuel, 'color', c.color, 'price', c.price, 'views', c.views, 'createdAt', c."createdAt", 'photos', (SELECT jsonb_agg(photo) FROM photos WHERE "carId" = c.id)))
         FROM cars c
         WHERE c."userId" = u.id
-    ) AS userSales
+    ) AS "userSales"
     FROM users u
     WHERE u.id = $1;
 `, [id]);
