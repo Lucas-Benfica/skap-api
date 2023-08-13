@@ -41,7 +41,7 @@ export async function postCreateCar(req, res) {
   }
 
   export async function getCarByCategory(req, res) {
-    const { category } = req.params;
+    const { category } = req.body;
     try {
       const result = await carByCategory(category);
       
