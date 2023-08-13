@@ -92,7 +92,7 @@ export async function ranking(){
     SELECT c.*,
     jsonb_agg(p.photo) AS photos
     FROM cars c
-    LEFT JOIN photos p ON c.id = p.carId
+    LEFT JOIN photos p ON c.id = p."carId"
     GROUP BY c.id
     ORDER BY c.views DESC
     LIMIT 6;
