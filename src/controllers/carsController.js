@@ -39,18 +39,6 @@ export async function postCreateCar(req, res) {
       res.status(500).send({ message: "Error retrieving car by ID: " + err.message });
     }
   }
-
-  export async function getCarByCategory(req, res) {
-    const { category } = req.body;
-    try {
-      const result = await carByCategory(category);
-      
-      res.status(200).send(result.rows);
-      
-    } catch (err) {
-      res.status(500).send({ message: "Error retrieving car by Category: " + err.message });
-    }
-  }
   
   export async function getCarRanking(req, res) {
     try {

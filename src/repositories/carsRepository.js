@@ -99,15 +99,3 @@ export async function ranking(){
     `);
     return result;
 }
-
-export async function carByCategory(category) {
-    const result = db.query(`
-    SELECT c.*,
-    jsonb_agg(p.photo) AS photos
-    FROM cars c
-    LEFT JOIN photos p ON c.id = p."carId"
-    WHERE c.category = $1
-    GROUP BY c.id;
-    `, [category]);
-    return result;
-}

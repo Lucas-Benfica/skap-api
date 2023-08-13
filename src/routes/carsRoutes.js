@@ -10,7 +10,6 @@ carsRouter.get('/cars', getCarList);
 carsRouter.get('/cars/:id', getCarById);
 carsRouter.post('/cars', validateSchema(carsSchema), validateAuth, postCreateCar);
 carsRouter.get('/ranking', getCarRanking);
-carsRouter.get('/category', getCarByCategory);
 
 
 export default carsRouter;
