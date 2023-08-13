@@ -25,6 +25,21 @@ export async function signInSession (token, userData) {
 }
 
 export async function userInfoById (id) {	
-    const result = db.query(`SELECT * FROM users WHERE id=$1`, [id]);
+    const result = db.query(`SELECT * FROM users WHERE id=$1;`, [id]);
+    return result;
+}
+
+export async function addFavorite (user, car) 
+    const result = db.query(`INSERT INTO favorites ("userId", "carId") VALUES ($1, $2);`, [user, car]);
+    return result;
+
+
+export async function removeFavorite (user, car) {
+    const result = db.query(`DELETE FROM favorites WHERE "userId" = $1 AND "carId" = $2;`, [user, car]);
+    return result;
+}
+
+export async function isFavorite (user, car) {
+    const result = db.query(`SELECT * FROM favorites WHERE "userId" = $1 AND "carId" = $2;`, [user, car]);
     return result;
 }

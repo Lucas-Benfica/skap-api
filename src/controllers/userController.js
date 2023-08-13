@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { createUser, signInSession, userInfoById } from "../repositories/userRepository.js";
+import { addFavorite, createUser, isFavorite, removeFavorite, signInSession, userInfoById } from "../repositories/userRepository.js";
 /*
 "id" SERIAL PRIMARY KEY,
 	"name" TEXT NOT NULL,
@@ -37,6 +37,46 @@ export async function getUser(req, res) {
         res.status(200).send(userData);
     } catch (err) {
         res.status(500).send("Error while signing in: " + err.message);
+    }
+}
+
+export async function postAddFavorite(req, res) {
+    const { userId } = res.locals;
+    const { id } = req.body;
+    try {
+        const result = await addFavorite(userId, id);
+        res.status(200).send("Carro adicionado aos favoritos.");
+    } catch (err) {
+        res.status(500).send("Error while adding to favorites: " + err.message);
+    }
+}
+
+
+export async function postRemoveFavorite(req, res) {
+    const { userId } = res.locals;
+    const { id } = req.body;
+    try {
+        const result = await removeFavorite(userId, id);
+        res.status(200).send("Carro removido dos favoritos.");
+    } catch (err) {
+        res.status(500).send("Error while removing from favorites: " + err.message);
+    }
+}
+
+
+export async function getIsFavorite(req, res) {
+    const { userId } = res.locals;
+    const { id } = req.body;
+    try {
+        const result = await isFavorite(userId, id);
+        const isFavorite = result.rows.length > 0;
+        if (isFavorite) {
+            res.status(200).send({isFavorite: true});
+        } else {
+            res.status(200).send({isFavorite: false});
+        }
+    } catch (err) {
+        res.status(500).send("Error while checking favorite status: " + err.message);
     }
 }
 
