@@ -1,4 +1,4 @@
-import { carById, carList, createCar, insertPhotos, ranking } from "../repositories/carsRepository.js";
+import { carByCategory, carById, carList, createCar, insertPhotos, ranking } from "../repositories/carsRepository.js";
 
 export async function postCreateCar(req, res) {
     const { userId } = res.locals;
@@ -37,6 +37,20 @@ export async function postCreateCar(req, res) {
       }
     } catch (err) {
       res.status(500).send({ message: "Error retrieving car by ID: " + err.message });
+    }
+  }
+
+  export async function getCarByCategory(req, res) {
+    const { category } = req.params;
+    try {
+      const result = await carByCategory(category);
+      if (result.rows.length === 0) {
+        res.status(404).send({ message: "Cars not found" });
+      } else {
+        res.status(200).send(result.rows);
+      }
+    } catch (err) {
+      res.status(500).send({ message: "Error retrieving car by Category: " + err.message });
     }
   }
   
