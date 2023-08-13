@@ -26,7 +26,7 @@ export async function signInSession (token, userData) {
 
 export async function userInfoById (id) {	
     const result = db.query(`
-    SELECT u.id, u.name, u.email, u."phoneNumber",
+    SELECT u.id, u.name, u.email, u.cpf, u."phoneNumber",
     (
         SELECT jsonb_agg(jsonb_build_object('id', c.id, 'name', c.name, 'category', c.category, 'description', c.description, 'brand', c.brand, 'engine', c.engine, 'plate', c.plate, 'city', c.city, 'state', c.state, 'year', c.year, 'km', c.km, 'transmission', c.transmission, 'fuel', c.fuel, 'color', c.color, 'price', c.price, 'views', c.views, 'createdAt', c."createdAt", 'photos', (SELECT jsonb_agg(photo) FROM photos WHERE "carId" = c.id)))
         FROM cars c
