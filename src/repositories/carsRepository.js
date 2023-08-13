@@ -12,6 +12,7 @@ export async function carList() {
 }
 
 export async function carById(id) {
+    openAd(id);
     const result = db.query(`
     SELECT c.*,
     jsonb_agg(p.photo) AS photos,
@@ -23,6 +24,10 @@ export async function carById(id) {
     GROUP BY c.id, u.name, u.email, u."phoneNumber";
     `, [id]);
     return result;
+}
+
+export async function openAd(id) {
+    return db.query(`UPDATE cars SET views = views + 1 WHERE "id" = $1;`, [id]);
 }
 
 export async function createCar(carData) {
