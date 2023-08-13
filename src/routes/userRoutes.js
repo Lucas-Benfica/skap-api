@@ -13,7 +13,7 @@ userRouter.post('/signin', validateSchema(schemaSignIn), validateLogin, signIn);
 //userRouter.get('/user', validateAuth);
 userRouter.post('/favorites/add', validateAuth, postAddFavorite);
 userRouter.post('/favorites/remove', validateAuth, postRemoveFavorite);
-userRouter.get('/favorites', validateAuth, getIsFavorite);
+userRouter.get('/favorite/:id', validateAuth, getIsFavorite);
 
 
 
