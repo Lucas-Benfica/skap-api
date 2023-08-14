@@ -1,4 +1,4 @@
-import { carById, carBySearch, carList, createCar, insertPhotos, ranking, saleCancel, saleConfirm, saleDelete } from "../repositories/carsRepository.js";
+import { carById, carBySearch, carList, createCar, insertPhotos, ranking, saleCancel, saleConfirm, saleDelete, updateCar, updatePhotos } from "../repositories/carsRepository.js";
 
 export async function postCreateCar(req, res) {
     const { userId } = res.locals;
@@ -16,6 +16,25 @@ export async function postCreateCar(req, res) {
       res.status(500).send({ message: "Error creating car: " + err.message });
     }
   }
+
+  export async function postUpdateCar(req, res) {
+    const { carId } = req.params;
+    const { userId } = res.locals;
+    const { photos } = req.body;
+    const carData = {
+        userId: userId,
+        ...req.body,
+    };
+    delete carData.photos;
+    try {
+        await updateCar(carId, carData);
+        await updatePhotos(carId, photos); 
+        res.status(200).send("Car updated successfully");
+    } catch (err) {
+        res.status(500).send({ message: "Error updating car: " + err.message });
+    }
+}
+
   
 export async function getCarList(req, res) {
   try {

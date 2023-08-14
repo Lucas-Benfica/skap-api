@@ -64,6 +64,51 @@ export async function createCar(carData) {
     return result.rows[0].id;
 }
 
+export async function updateCar(carId, carData) {
+    const updateCarQuery = `
+        UPDATE cars
+        SET
+            "userId" = $1,
+            "name" = $2,
+            "category" = $3,
+            "description" = $4,
+            "brand" = $5,
+            "engine" = $6,
+            "plate" = $7,
+            "city" = $8,
+            "state" = $9,
+            "year" = $10,
+            "km" = $11,
+            "transmission" = $12,
+            "fuel" = $13,
+            "color" = $14,
+            "price" = $15
+        WHERE "id" = $16
+        RETURNING "id";
+    `;
+    
+    const result = await db.query(updateCarQuery, [
+        carData.userId,
+        carData.name,
+        carData.category,
+        carData.description,
+        carData.brand,
+        carData.engine,
+        carData.plate,
+        carData.city,
+        carData.state,
+        carData.year,
+        carData.km,
+        carData.transmission,
+        carData.fuel,
+        carData.color,
+        carData.price,
+        carId
+    ]);
+    
+    return result.rows[0].id;
+}
+
 export async function insertPhotos(carId, photoArray) {
     const insertPhotoQuery = `INSERT INTO photos ("carId", photo) VALUES ($1, $2)`;
 
@@ -75,6 +120,23 @@ export async function insertPhotos(carId, photoArray) {
         console.error({ message: 'Error inserting photo:', error });
     }
 }
+
+export async function updatePhotos(carId, photoArray) {
+    const deletePhotosQuery = `DELETE FROM photos WHERE "carId" = $1`;
+
+    const insertPhotoQuery = `INSERT INTO photos ("carId", photo) VALUES ($1, $2)`;
+
+    try {
+        await db.query(deletePhotosQuery, [carId]);
+
+        for (const photo of photoArray) {
+            await db.query(insertPhotoQuery, [carId, photo]);
+        }
+    } catch (error) {
+        console.error({ message: 'Error updating photos:', error });
+    }
+}
+
 
 const insertCarQuery = `
     INSERT INTO cars (
