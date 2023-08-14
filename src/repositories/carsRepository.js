@@ -111,3 +111,10 @@ export async function ranking(){
     `);
     return result;
 }
+
+export async function saleConfirm(id) {
+    return db.query(`UPDATE cars SET sold = true WHERE "id" = $1;`, [id]);
+}
+export async function saleCancel(id) {
+    return db.query(`UPDATE cars SET sold = false WHERE "id" = $1;`, [id]);
+}

@@ -11,5 +11,5 @@ carsRouter.get('/cars/:id', getCarById);
 carsRouter.post('/cars', validateSchema(carsSchema), validateAuth, postCreateCar);
 carsRouter.get('/ranking', getCarRanking);
 carsRouter.get('/search', getCarBySearch);
-
+carsRouter.post('/cars/user/:id', validateAuth, postCreateCar);
 export default carsRouter;
