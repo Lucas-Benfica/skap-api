@@ -13,6 +13,6 @@ carsRouter.get('/ranking', getCarRanking);
 carsRouter.get('/search', getCarBySearch);
 carsRouter.post('/cars-user/:id', validateAuth, confirmSale);
 carsRouter.delete('/cars/:id', validateAuth, deleteSale);
-carsRouter.post('/cars/:carId', validateSchema(carsSchema), validateAuth, postUpdateCar);
+carsRouter.post('/cars/:carId', validateAuth, postUpdateCar);
 
 export default carsRouter;

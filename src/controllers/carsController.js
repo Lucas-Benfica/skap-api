@@ -27,7 +27,7 @@ export async function postCreateCar(req, res) {
     };
     delete carData.photos;
     try {
-        await updateCar(carId, carData);
+        await updateCar(carId, carData, userId);
         await updatePhotos(carId, photos); 
         res.status(200).send("Car updated successfully");
     } catch (err) {

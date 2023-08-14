@@ -64,7 +64,7 @@ export async function createCar(carData) {
     return result.rows[0].id;
 }
 
-export async function updateCar(carId, carData) {
+export async function updateCar(carId, carData, userId) {
     const updateCarQuery = `
         UPDATE cars
         SET
@@ -82,7 +82,10 @@ export async function updateCar(carId, carData) {
             "transmission" = $12,
             "fuel" = $13,
             "color" = $14,
-            "price" = $15
+            "price" = $15,
+            views = $16,
+            sold = $17,
+
         WHERE "id" = $16
         RETURNING "id";
     `;
@@ -103,7 +106,8 @@ export async function updateCar(carId, carData) {
         carData.fuel,
         carData.color,
         carData.price,
-        carId
+        carData.views,
+        carData.sold
     ]);
     
     return result.rows[0].id;
