@@ -26,6 +26,18 @@ export async function carById(id) {
     return result;
 }
 
+export async function carBySearch(term) {
+    const result = db.query(`
+    SELECT c.*,
+    jsonb_agg(p.photo) AS photos
+    FROM cars c
+    LEFT JOIN photos p ON c.id = p."carId"
+    WHERE c.name ILIKE $1 OR c.category ILIKE $1 OR c.brand ILIKE $1
+    GROUP BY c.id;
+    `, [`%${term}%`]);
+    return result;
+}
+
 export async function openAd(id) {
     return db.query(`UPDATE cars SET views = views + 1 WHERE "id" = $1;`, [id]);
 }

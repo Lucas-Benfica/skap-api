@@ -1,16 +1,6 @@
 import { db } from "../database/databaseConnection.js";
 import bcrypt from "bcrypt";
 
-/*
-"id" SERIAL PRIMARY KEY,
-	"name" TEXT NOT NULL,
-	"password" TEXT NOT NULL,
-    "email" TEXT UNIQUE NOT NULL,
-    "cpf" CHAR(11) UNIQUE NOT NULL,
-    "phoneNumber" VARCHAR(15) UNIQUE NOT NULL,
-    "createdAt" TIMESTAMP DEFAULT NOW()
-*/
-
 export async function createUser (body) {
     const { name, password, email, cpf, phoneNumber } = body;
 	const hash = bcrypt.hashSync(password, 10);
