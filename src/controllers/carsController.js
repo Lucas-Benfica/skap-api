@@ -1,4 +1,4 @@
-import { carById, carBySearch, carList, createCar, insertPhotos, ranking, saleCancel, saleConfirm } from "../repositories/carsRepository.js";
+import { carById, carBySearch, carList, createCar, insertPhotos, ranking, saleCancel, saleConfirm, saleDelete } from "../repositories/carsRepository.js";
 
 export async function postCreateCar(req, res) {
     const { userId } = res.locals;
@@ -76,4 +76,14 @@ export async function confirmSale(req, res) {
   }
 }
 
+export async function deleteSale(req, res) {
+  const { id } = req.params;
+  try {
+        const result = await saleDelete(id);
+        return res.status(200).send("Deletado com sucesso!");
+
+  } catch (err) {
+    res.status(500).send({ message: "Error while deleting sale: " + err.message });
+  }
+}
   

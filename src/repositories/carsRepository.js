@@ -118,3 +118,7 @@ export async function saleConfirm(id) {
 export async function saleCancel(id) {
     return db.query(`UPDATE cars SET sold = false WHERE "id" = $1;`, [id]);
 }
+
+export async function saleDelete(id) {
+    return db.query(`DELETE FROM cars WHERE "id" = $1;`, [id]);
+}
