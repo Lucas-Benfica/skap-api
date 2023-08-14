@@ -83,8 +83,6 @@ export async function updateCar(carId, carData, userId) {
             "fuel" = $13,
             "color" = $14,
             "price" = $15,
-            views = $16,
-            sold = $17,
 
         WHERE "id" = $16
         RETURNING "id";
@@ -105,9 +103,7 @@ export async function updateCar(carId, carData, userId) {
         carData.transmission,
         carData.fuel,
         carData.color,
-        carData.price,
-        carData.views,
-        carData.sold
+        carData.price
     ]);
     
     return result.rows[0].id;
