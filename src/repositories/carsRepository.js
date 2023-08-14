@@ -120,5 +120,6 @@ export async function saleCancel(id) {
 }
 
 export async function saleDelete(id) {
+    db.query(`DELETE FROM photos WHERE "carId" = $1;`, [id]);
     return db.query(`DELETE FROM cars WHERE "id" = $1;`, [id]);
 }
