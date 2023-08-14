@@ -103,7 +103,8 @@ export async function updateCar(carId, carData, userId) {
         carData.transmission,
         carData.fuel,
         carData.color,
-        carData.price
+        carData.price,
+        carId
     ]);
     
     return result.rows[0].id;
