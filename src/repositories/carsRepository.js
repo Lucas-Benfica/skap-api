@@ -83,7 +83,6 @@ export async function updateCar(carId, carData, userId) {
             "fuel" = $13,
             "color" = $14,
             "price" = $15
-
         WHERE "id" = $16
         RETURNING "id";
     `;
