@@ -12,7 +12,6 @@ export async function carList() {
 }
 
 export async function carById(id) {
-    openAd(id);
     const result = db.query(`
     SELECT c.*,
     jsonb_agg(p.photo) AS photos,
@@ -23,7 +22,7 @@ export async function carById(id) {
     WHERE c.id = $1
     GROUP BY c.id, u.name, u.email, u."phoneNumber";
     `, [id]);
-    return result;
+    return result.rows[0];
 }
 
 export async function carBySearch(term) {
@@ -175,10 +174,10 @@ export async function ranking(){
 }
 
 export async function saleConfirm(id) {
-    return db.query(`UPDATE cars SET sold = true WHERE "id" = $1;`, [id]);
+    return await db.query(`UPDATE cars SET sold = true WHERE "id" = $1;`, [id]);
 }
 export async function saleCancel(id) {
-    return db.query(`UPDATE cars SET sold = false WHERE "id" = $1;`, [id]);
+    return await db.query(`UPDATE cars SET sold = false WHERE "id" = $1;`, [id]);
 }
 
 export async function saleDelete(id) {

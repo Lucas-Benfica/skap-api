@@ -1,107 +1,60 @@
-import { carById, carBySearch, carList, createCar, insertPhotos, ranking, saleCancel, saleConfirm, saleDelete, updateCar, updatePhotos } from "../repositories/carsRepository.js";
+import carsService from "../services/carsService.js";
 
 export async function postCreateCar(req, res) {
-    const { userId } = res.locals;
-    const { photos } = req.body;
-    const carData = {
-      userId: userId,
-      ...req.body,
-    };
-    delete carData.photos;
-    try {
-      const resultId = await createCar(carData);
-      await insertPhotos(resultId, photos);
-      res.status(201).send("Car created successfully");
-    } catch (err) {
-      res.status(500).send({ message: "Error creating car: " + err.message });
-    }
-  }
+  const { userId } = res.locals;
+  const { photos } = req.body;
+
+  await carsService.postCreateCar(userId, req.body, photos);
+  res.status(201).send("Car created successfully");
+}
 
 export async function postUpdateCar(req, res) {
-    const { carId } = req.params;
-    const { userId } = res.locals;
-    const { photos } = req.body;
-    const carData = {
-        userId: userId,
-        ...req.body,
-    };
-    delete carData.photos;
-    try {
-        const idCar = await updateCar(carId, carData, userId);
-        await updatePhotos(carId, photos); 
-        res.status(200).send(`Car ${idCar} updated successfully`);
-    } catch (err) {
-        res.status(500).send({ message: "Error updating car: " + err.message });
-    }
+  const { carId } = req.params;
+  const { userId } = res.locals;
+  const { photos } = req.body;
+  const carData = {
+    userId: userId,
+    ...req.body,
+  };
+  delete carData.photos;
+
+  const idCar = await carsService.postUpdateCar(carId, userId, photos, carData);
+
+  res.status(200).send(`Car ${idCar} updated successfully`);
 }
- 
+
 export async function getCarList(req, res) {
-  try {
-    const result = await carList();
-    res.status(200).send(result.rows);
-  } catch (err) {
-    res.status(500).send({ message: "Error retrieving car list: " + err.message });
-  }
+  const result = await carsService.getCarList();
+  res.status(200).send(result);
 }
 
 export async function getCarById(req, res) {
   const { id } = req.params;
-  try {
-    const result = await carById(id);
-    if (result.rows.length === 0) {
-      res.status(404).send({ message: "Car not found" });
-    } else {
-      res.status(200).send(result.rows[0]);
-    }
-  } catch (err) {
-    res.status(500).send({ message: "Error retrieving car by ID: " + err.message });
-  }
+  const result = carsService.getCarById(id)
+  res.status(200).send(result);
 }
 
 export async function getCarBySearch(req, res) {
   const term = req.query.term;
-  try {
-    const result = await carBySearch(term);
-    res.status(200).send(result.rows);
-  } catch (err) {
-    res.status(500).send({ message: "Error retrieving car by ID: " + err.message });
-  }
+  const result = await carsService.getCarBySearch(term);
+  res.status(200).send(result);
 }
 
 export async function getCarRanking(req, res) {
-  try {
-    const result = await ranking();
-    res.status(200).send(result.rows);
-  } catch (err) {
-    res.status(500).send({ message: "Error retrieving car ranking: " + err.message });
-  }
+  const result = await carsService.getCarRanking();
+  res.status(200).send(result);
 }
 
 export async function confirmSale(req, res) {
   const { id } = req.params;
   const { sell } = req.body;
-  try {
-    if (sell === 'confirm') {
-        const result = await saleConfirm(id);
-        return res.status(200).send("Sale confirmed!");
-    }
-    if (sell === 'cancel') {
-      const result = await saleCancel(id);
-      return res.status(200).send("Sale canceled!");
-    }
-  } catch (err) {
-    res.status(500).send({ message: "Error while processing sale: " + err.message });
-  }
+  
+  const result = carsService.confirmSale(id, sell);
+  return res.status(200).send(result);
 }
 
 export async function deleteSale(req, res) {
   const { id } = req.params;
-  try {
-        const result = await saleDelete(id);
-        return res.status(200).send("Deletado com sucesso!");
-
-  } catch (err) {
-    res.status(500).send({ message: "Error while deleting sale: " + err.message });
-  }
+  await carsService.deleteSale(id);
+  return res.status(200).send("Deletado com sucesso!");
 }
-  
