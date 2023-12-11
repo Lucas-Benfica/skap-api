@@ -56,5 +56,5 @@ export async function confirmSale(req, res) {
 export async function deleteSale(req, res) {
   const { id } = req.params;
   await carsService.deleteSale(id);
-  return res.status(200).send("Deletado com sucesso!");
+  return res.status(200).send("Successfully deleted!");
 }

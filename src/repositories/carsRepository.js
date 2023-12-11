@@ -160,7 +160,7 @@ const insertCarQuery = `
     RETURNING id;
 `;
 
-export async function ranking(){
+export async function rankingByViews(){
     const result = db.query(`
     SELECT c.*,
     jsonb_agg(p.photo) AS photos

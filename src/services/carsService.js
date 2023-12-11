@@ -1,5 +1,5 @@
 import { NotFoundError } from "../errors/notFound-error.js";
-import { carById, carBySearch, carList, createCar, insertPhotos, ranking, saleCancel, saleConfirm, saleDelete, updateCar, updatePhotos } from "../repositories/carsRepository.js";
+import { carById, carBySearch, carList, createCar, insertPhotos, rankingByViews, saleCancel, saleConfirm, saleDelete, updateCar, updatePhotos } from "../repositories/carsRepository.js";
 
 export async function postCreateCar(userId, car, photos) {
     const carData = {
@@ -40,7 +40,7 @@ export async function getCarBySearch(term) {
 
 export async function getCarRanking() {
     
-    const result = await ranking();
+    const result = await rankingByViews();
     return result.rows;
 }
 
