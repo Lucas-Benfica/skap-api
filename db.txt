@@ -24,6 +24,7 @@ CREATE TABLE "cars" (
     "fuel" VARCHAR(20) NOT NULL,
     "color" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
+    "sold" BOOLEAN DEFAULT false,
     "views" INTEGER DEFAULT 0,
     "createdAt" TIMESTAMP DEFAULT NOW()
 );

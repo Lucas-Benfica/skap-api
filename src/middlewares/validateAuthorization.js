@@ -1,20 +1,17 @@
 import { db } from "../database/databaseConnection.js";
+import { UnauthorizedError } from "../errors/Unauthorized-Error.js";
 
 export async function validateAuth(req, res, next) {
 
     const { authorization } = req.headers;
     
     const token = authorization?.replace("Bearer ", "");
-    if (!token) return res.sendStatus(401);
+    if (!token) throw UnauthorizedError("Token is required.");
     
-    try {
-        const tokenOk = await db.query(`SELECT * FROM session Where token=$1 LIMIT 1`, [token]);
-        if (!tokenOk.rows[0]) return res.sendStatus(401);
+    const tokenOk = await db.query(`SELECT * FROM session Where token=$1 LIMIT 1`, [token]);
+    if (!tokenOk.rows[0]) throw UnauthorizedError("Token not found.");
 
-        res.locals.userId = tokenOk.rows[0].userId;
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    res.locals.userId = tokenOk.rows[0].userId;
 
     next();
 }

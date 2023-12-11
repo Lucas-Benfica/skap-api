@@ -1,17 +1,12 @@
 import { db } from "../database/databaseConnection.js";
 import bcrypt from "bcrypt";
 
-export async function createUser (body) {
-    const { name, password, email, cpf, phoneNumber } = body;
-	const hash = bcrypt.hashSync(password, 10);
-
-    const newUser = db.query(`INSERT INTO users (name, password, email, cpf, "phoneNumber") VALUES ($1, $2, $3, $4, $5);`, [name, hash, email, cpf, phoneNumber]);
-    return newUser;
+export async function createUser (name, password, email, cpf, phoneNumber) {
+    await db.query(`INSERT INTO users (name, password, email, cpf, "phoneNumber") VALUES ($1, $2, $3, $4, $5);`, [name, password, email, cpf, phoneNumber]);
 }
 
-export async function signInSession (token, userData) {	
-    const login = db.query(`INSERT INTO session ("userId", token) VALUES ($1, $2);`, [userData.id, token]);
-    return login;
+export async function signInSession (token, id) {	
+    await db.query(`INSERT INTO session ("userId", token) VALUES ($1, $2);`, [id, token]);
 }
 
 export async function userInfoById (id) {	
@@ -71,12 +66,11 @@ export async function userInfoById (id) {
     FROM users u
     WHERE u.id = $1;
 `, [id]);
-    return result;
+    return result.rows[0];
 }
 
 export async function addFavorite (user, car) {
-    const result = db.query(`INSERT INTO favorites ("userId", "carId") VALUES ($1, $2);`, [user, car]);
-    return result;
+    await db.query(`INSERT INTO favorites ("userId", "carId") VALUES ($1, $2);`, [user, car]);
 }
 
 export async function removeFavorite (user, car) {
@@ -85,6 +79,6 @@ export async function removeFavorite (user, car) {
 }
 
 export async function isFavorite (user, car) {
-    const result = db.query(`SELECT * FROM favorites WHERE "userId" = $1 AND "carId" = $2;`, [user, car]);
+    const result = await db.query(`SELECT * FROM favorites WHERE "userId" = $1 AND "carId" = $2;`, [user, car]);
     return result;
 }
