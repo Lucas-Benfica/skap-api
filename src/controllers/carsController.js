@@ -17,7 +17,7 @@ export async function postCreateCar(req, res) {
     }
   }
 
-  export async function postUpdateCar(req, res) {
+export async function postUpdateCar(req, res) {
     const { carId } = req.params;
     const { userId } = res.locals;
     const { photos } = req.body;
@@ -27,15 +27,14 @@ export async function postCreateCar(req, res) {
     };
     delete carData.photos;
     try {
-        await updateCar(carId, carData, userId);
+        const idCar = await updateCar(carId, carData, userId);
         await updatePhotos(carId, photos); 
-        res.status(200).send("Car updated successfully");
+        res.status(200).send(`Car ${idCar} updated successfully`);
     } catch (err) {
         res.status(500).send({ message: "Error updating car: " + err.message });
     }
 }
-
-  
+ 
 export async function getCarList(req, res) {
   try {
     const result = await carList();
